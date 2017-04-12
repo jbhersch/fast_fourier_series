@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft
+from scipy.fftpack import fft, ifft
 
 class FFS(object):
-    def __init__(self, x, y, pad = 0):
+    def __init__(self, x, y, pad = 0, thresh = 0):
+        if thresh > 0 and thresh < 1:
+            y = self.remove_noise(y, thresh)
         if pad > 0:
-            x,y = self.fourier_pad(x,y,pad)
+            x, y = self.fourier_pad(x, y, pad)
         self.x = x
         self.y = y
         self.n = len(x) # length of x, y
@@ -28,7 +30,17 @@ class FFS(object):
         # b = sine coefficients
         self.b = -self.c.imag
 
-    def fourier_pad(self,x,y,p):
+    def remove_noise(self, y, thresh):
+        yt = fft(y)
+        yt0 = yt[0]
+        yt = yt[1:]
+        yt_abs = np.absolute(yt)
+        yt_max = np.max(yt_abs)
+        indices = np.where(yt_abs < thresh*yt_max)[0]
+        yt[indices] = np.complex(0,0)
+        return ifft(np.hstack((yt0, yt)))
+
+    def fourier_pad(self, x, y, p):
         n = len(x)
         xa = x[0]
         xb = x[-1]
@@ -56,19 +68,35 @@ class FFS(object):
 
         return xx, yy
 
-    def evaluate(self, x, N = None):
+    def evaluate(self, x, N = None, deriv = 0):
+        # if x not an ndarray cast it as one
+        if type(x) in [float, int, np.float64]:
+            x = np.array([x])
         # initalize y as a0
-        y = self.a0*np.ones(len(x))
         # transform x to be in range of xa to xb
-        x = 2*np.pi*(x - self.xa)/self.L
+        omega = 2*np.pi/self.L
+        # x = 2*np.pi*(x - self.xa)/self.L
+        x = omega*(x-self.xa)
         # set N, order of Fourier Series
         if N == None:
             N = self.m - 1
         else:
-            N = np.min([N, self.m - 1])
+            N = np.min([N - 1, self.m - 1])
         # calculate y over order N Fourier Series
-        for k in xrange(0, N):
-            y += self.a[k]*np.cos(x*(k+1)) + self.b[k]*np.sin(x*(k+1))
+        if deriv == 0:
+            y = self.a0*np.ones(len(x))
+            for k in xrange(0, N):
+                y += self.a[k]*np.cos(x*(k+1)) + self.b[k]*np.sin(x*(k+1))
+        elif deriv == 1:
+            y = np.zeros(len(x))
+            for k in xrange(0, N):
+                y += (k+1)*(-self.a[k]*np.sin(x*(k+1)) + self.b[k]*np.cos(x*(k+1)))
+            y *= omega
+        elif deriv == 2:
+            y = np.zeros(len(x))
+            for k in xrange(0, N):
+                y += ((k+1)**2)*(-self.a[k]*np.cos(x*(k+1)) - self.b[k]*np.sin(x*(k+1)))
+            y *= omega**2
         return y
 
 
