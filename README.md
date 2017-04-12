@@ -21,24 +21,20 @@ The Fourier Series is frequently used in solutions to partial
 ## Overview
 #### Fourier Series Fundamentals
 For a function, f(x) defined on the region
-$$
-x_a \leq x \leq x_b
-$$
+
+![alt text](images/equations/x_range.gif)
+
 f(x) can be represented by the Fourier Series, s(x), as follows:
-$$
-s(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} [a_n\cos(n\omega x^*) + b_n\sin(n\omega x^*)]
-$$
+
+![alt text](images/equations/fourier_series_def.gif)
 
 Where
-$$
-\omega = \frac{2 \pi}{L}
-$$
-$$
-L = x_b - x_a
-$$
-$$
-x^* = x - x_a
-$$
+
+![alt text](images/equations/omega_def.gif)
+
+![alt text](images/equations/L_def.gif)
+
+![alt text](images/equations/x_star_def.gif)
 
 #### Fourier Series from the Discrete Fourier Transformation
 #### Fourier Series Padding
