@@ -20,7 +20,7 @@ The Fourier Series is frequently used in solutions to partial
 
 ## Overview
 #### Fourier Series Fundamentals
-For a function, f(x) defined on the region
+Consider a piecewise smooth function, f(x), defined on the region
 
 ![alt text](images/equations/x_range.gif)
 
@@ -30,19 +30,15 @@ f(x) can be represented by the Fourier Series, s(x), as follows:
 
 Where
 
-![alt text](images/equations/omega_def.gif)
-
 ![alt text](images/equations/L_def.gif)
 
-![alt text](images/equations/x_star_def.gif)
-
-#### Fourier Series from the Discrete Fourier Transformation
+#### Fourier Series from the Discrete Fourier Transform
 #### Fourier Series Padding
 #### Eliminating Noise Using Fourier Analysis
 
 ## Fourier Series Fundamentals
 
-## Fourier Series from the Discrete Fourier Transformation
+## Fourier Series from the Discrete Fourier Transform
 
 ## Fourier Series Padding
 
