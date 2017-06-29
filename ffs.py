@@ -4,7 +4,7 @@ from scipy.fftpack import fft, ifft
 
 class FFS(object):
     '''
-    Description
+    DESCRIPTION:
 
     ATTRIBUTES:
         - x: x-coordinates (ndarray)
