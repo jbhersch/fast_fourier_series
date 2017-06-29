@@ -21,7 +21,7 @@ class FFS(object):
             - pad: number of data points to pad the x, y vectors with (int)
             - thresh: threshold used for noise removal (float)
         OUTPUT: None
-        '''
+        '''        
         if thresh > 0 and thresh < 1:
             y = self.remove_noise(y, thresh)
         if pad > 0:
