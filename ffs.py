@@ -98,7 +98,7 @@ class FFS(object):
         # set N, order of Fourier Series
         if N == None:
             N = self.m - 1
-        else:
+        else: # make sure that N is not greater than self.m - 1
             N = np.min([N - 1, self.m - 1])
         # calculate y over order N Fourier Series
         if deriv == 0:
