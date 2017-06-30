@@ -165,26 +165,58 @@ class FFS(object):
             y *= omega**2
         return y
 
+def refine_image(img, rows, cols):
+    x = np.arange(0, img.shape[1])
+    xx = np.linspace(x[0], x[-1], cols)
+    y = np.arange(0, img.shape[0])
+    yy = np.linspace(x[0], x[-1], rows)
+
+    if len(img.shape) == 3:
+        layers = img.shape[2]
+    else:
+        layers = 1
+
+    img_out = np.zeros((rows,cols,layers))
+    for layer in xrange(layers):
+        img1 = np.zeros((img.shape[0], cols))
+        for n in xrange(img.shape[0]):
+            fs = FFS(x, img[n,:,layer], img.shape[1])
+            img1[n,:] = fs.evaluate(xx)
+
+        img2 = np.zeros((rows, cols))
+        for n in range(cols):
+            fs = FFS(y, img1[:,n], img.shape[0])
+            img2[:,n] = fs.evaluate(yy)
+
+        img_out[:,:,layer] = img2
+
+    if layers == 1:
+        img_out = img_out[:,:,0]
+
+    return img_out
 
 if __name__ == '__main__':
     x = np.linspace(-2,2,50)
     y = np.exp(-x**2)
-
-    # xx, yy = fourier_pad(x,y,200)
-
-    # plt.plot(x,y)
+    #
+    # # xx, yy = fourier_pad(x,y,200)
+    #
+    # # plt.plot(x,y)
+    # # plt.show()
+    #
+    # f = FFS(x,y,0)
+    # # xx, yy = f.fourier_pad(x,y,50)
+    # ypred = f.evaluate(x)
+    # # plt.plot(y, 'r')
+    # # plt.plot(ypred, 'b')
+    # # plt.show()
+    #
+    #
+    # # xright = np.linspace(6,14,100)
+    # plt.plot(x,y,'b', linewidth = 5)
+    # plt.plot(x,ypred,'r')
+    # # plt.plot(xright, f.eval(xright), 'g')
     # plt.show()
 
-    f = FFS(x,y,0)
-    # xx, yy = f.fourier_pad(x,y,50)
-    ypred = f.evaluate(x)
-    # plt.plot(y, 'r')
-    # plt.plot(ypred, 'b')
-    # plt.show()
-
-
-    # xright = np.linspace(6,14,100)
-    plt.plot(x,y,'b', linewidth = 5)
-    plt.plot(x,ypred,'r')
-    # plt.plot(xright, f.eval(xright), 'g')
-    plt.show()
+    # y = np.array([1,2,3,4,5])
+    # yt = fft(y)
