@@ -46,7 +46,7 @@ class FFS(object):
 
         yt = fft(y) # fourier transformation of y
         # only use first half of yt for Fourier Series coeffcients
-        self.m = int(np.ceil(self.n/2))
+        self.m = int(np.ceil(1.*self.n/2))
 
         # define a0
         self.a0 = yt[0].real/self.n
@@ -196,7 +196,7 @@ def refine_image(img, rows, cols):
     return img_out
 
 if __name__ == '__main__':
-    x = np.linspace(-2,2,50)
+    x = np.linspace(-2,2,11)
     y = np.exp(-x**2)
     #
     # # xx, yy = fourier_pad(x,y,200)
@@ -205,17 +205,18 @@ if __name__ == '__main__':
     # # plt.show()
     #
     # f = FFS(x,y,0)
-    # # xx, yy = f.fourier_pad(x,y,50)
+    # # # xx, yy = f.fourier_pad(x,y,50)
     # ypred = f.evaluate(x)
-    # # plt.plot(y, 'r')
-    # # plt.plot(ypred, 'b')
-    # # plt.show()
-    #
-    #
-    # # xright = np.linspace(6,14,100)
-    # plt.plot(x,y,'b', linewidth = 5)
+    # # # plt.plot(y, 'r')
+    # # # plt.plot(ypred, 'b')
+    # # # plt.show()
+    # #
+    # #
+    # # # xright = np.linspace(6,14,100)
+    # plt.plot(x,y,'bo')
     # plt.plot(x,ypred,'r')
-    # # plt.plot(xright, f.eval(xright), 'g')
+    # plt.plot(x,f.evaluate(x, f.m-2),'g')
+    # # # plt.plot(xright, f.eval(xright), 'g')
     # plt.show()
 
     # y = np.array([1,2,3,4,5])
