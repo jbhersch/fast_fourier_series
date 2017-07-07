@@ -149,7 +149,7 @@ Introducing artificial data points at the end of the input function, or padding,
 allows for the transition between periods to be smoothened.  The input parameter
 for padding is the number of padded points to insert, p.  The y values of the
 padded region are obtained by a cubic interpolation derived from four data points.  
-The x values of these four data points are [ x[-2], x[-1], xb + p*h, xb + (p+1)*h ]
+The x values of these four data points are [ x[-2], x[-1], x[-1] + p*h, x[-1] + (p+1)*h ]
 where h is the uniform spacing increment of the x values.  The y values of these
 four data points are [ y[-2], y[-1], y[0], y[1] ].  The mathematics of defining
 the interpolation polynomial is more formally explained in XXX.
@@ -170,9 +170,19 @@ The benefit of using a cubic interpolation polynomial is that both the first and
 second derivatives match that of the original cubic function at the beginning and
 end of the padding.
 
+As expected, the addition of padding provides a much better Fourier Series
+approximation to the cubic function than without, with is illustrated in the
+next plot.
+
 <img src="images/cubic/cubic_with_padding.png" width="600" height = "400" />
+
+Similarly, padding the input function also drastically increases the accuracy of
+the first two derivative approximations.
+
 <img src="images/cubic/cubic_1st_derivative_with_padding.png" width="600" height = "400" />
 <img src="images/cubic/cubic_2nd_derivative_with_padding.png" width="600" height = "400" />
 
+Similar to the bell curve, the derivative approximations deviate at the edges of
+the plots, but for the most part they are very accurate.
 
 ## Noise Removal
