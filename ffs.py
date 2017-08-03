@@ -5,7 +5,12 @@ from scipy.fftpack import fft, ifft
 class FFS(object):
     '''
     DESCRIPTION:
-
+        The FFS class creates a Fourier Series approximation to a set of
+        discrete x and y vectors that describe some curve.  The class contains
+        methods to evaluate the Fourier Series and its first two derivatives (evaluate),
+        pad the input data with a cubic interpolation polynomial (fourier_pad), and
+        eliminate noise in the original signal by setting certain Fourier coeffcients
+        to zero (remove_noise).
     ATTRIBUTES:
         - x: x-coordinates (ndarray)
         - y: y-coordinates (ndarray)

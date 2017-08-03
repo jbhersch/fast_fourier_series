@@ -107,7 +107,7 @@ second derivatives match that of the original cubic function at the beginning an
 end of the padding.
 
 As expected, the addition of padding provides a much better Fourier Series
-approximation to the cubic function than without, with is illustrated in the
+approximation to the cubic function than without, which is illustrated in the
 next plot.
 
 <img src="images/cubic/cubic_with_padding.png" width="600" height = "400" />
