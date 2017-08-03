@@ -122,3 +122,40 @@ Similar to the bell curve, the derivative approximations deviate at the edges of
 the plots, but for the most part they are very accurate.
 
 ## Noise Removal
+It was discussed earlier that the Fourier Series approximates functions by adding
+several different sine and cosine waves with varying harmonic frequencies and
+amplitudes.  Oftentimes, noise in signals can be described by high frequency
+waves with exaggerated amplitudes.  Therefore, the structure of the Fourier Series
+allows for an effective method in eliminating signal noise.  The evaluate() method
+in the FFS class has an input parameter, N, which defines the order of the Fourier
+Series to be evaluated at.  In other words, N is the number of harmonic wave
+frequencies to include in the Fourier Series approximation.  For example, if a
+Fourier Series is constructed on top of 100 data points, then it will include
+waves for 50 harmonic frequencies.  If N is set to 40, then the
+harmonic waves with the 10 highest frequencies will be left out.  In many cases,
+reducing the order of the Fourier Series is a very effective means to eliminate noise,
+which is demonstrated in the following examples.  
+
+#### Noisy Bell Curve
+The first noise removal example reexamines the same bell curve discussed before.  Normally
+distributed random noise with a mean of zero and standard deviation of 0.1 is introduced.
+The Fourier Series is built on 100 data points with one padding point and the de-noised
+signal shown in the plot below is obtained by evaluating the Fourier Series with
+three harmonic frequencies (N = 3 in FFS.evaluate()).  As shown, this noise elimination
+method does an excellent job of reconstructing the original signal.  
+
+<img src="images/noise_removal/bell_curve_noise_removal.png" width="600" height = "400" />
+
+#### Noisy Cubic Function
+The next noise removal example is the cubic function previously discussed.  Again,
+normally distributed noise with a mean of zero and standard deviation of 1 is introduced
+and the Fourier Series is built on 100 data points with 101 padding points.  In this case,
+the de-noised signal is generated using an order 15 Fourier Series (N = 15 in
+FFS.evaluate()).  The signal reconstruction in this case is clearly not as accurate
+as in the case of the bell curve, but it does a fairly good job and certainly produces
+a much smoother curve than the noisy signal.
+
+
+<img src="images/noise_removal/cubic_noise_removal.png" width="600" height = "400" />
+
+####

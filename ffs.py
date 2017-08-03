@@ -1,16 +1,13 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.fftpack import fft, ifft
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 class FFS(object):
     '''
     DESCRIPTION:
         The FFS class creates a Fourier Series approximation to a set of
-        discrete x and y vectors that describe some curve.  The class contains
-        methods to evaluate the Fourier Series and its first two derivatives (evaluate),
-        pad the input data with a cubic interpolation polynomial (fourier_pad), and
-        eliminate noise in the original signal by setting certain Fourier coeffcients
-        to zero (remove_noise).
+        discrete x and y vectors that describe some curve.
     ATTRIBUTES:
         - x: x-coordinates (ndarray)
         - y: y-coordinates (ndarray)
@@ -25,6 +22,12 @@ class FFS(object):
         - c: complex vector of Fourier Transform coeffcients (ndarray)
         - a: vector of amplitudes for cosine waves in Fourier Series (ndarray)
         - b: vector of amplitudes for sine waves in Fourier Series (ndarray)
+    METHODS:
+        - __init__()
+        - remove_noise()
+        - fourier_pad()
+        - evaluate()
+
     '''
     def __init__(self, x, y, pad = 0, thresh = 0):
         '''
@@ -169,3 +172,34 @@ class FFS(object):
                 y += ((k+1)**2)*(-self.a[k]*np.cos(x*(k+1)) - self.b[k]*np.sin(x*(k+1)))
             y *= omega**2
         return y
+
+    def plot_series_against_input(self, show_padding = False, save_path = None):
+        if self.n == self.n0:
+            show_padding = False
+
+        fig = plt.figure(figsize=(15,10))
+        ax = fig.add_subplot(111)
+
+        x = self.x[:self.n0]
+        y = self.y[:self.n0]
+
+        ax.plot(x,y,'b',linewidth=10, alpha = 0.25, label = 'Input Function')
+        ax.plot(x,self.evaluate(x),'b', label = 'Fourier Series')
+
+        if show_padding:
+            xpad = self.x[self.n0:]
+            ypad = self.y[self.n0:]
+            ax.plot(xpad,ypad,'r',linewidth=10, alpha = 0.25, label = 'Input Function Padding')
+            ax.plot(xpad,self.evaluate(xpad),'r', label = 'Fourier Series Padding')
+
+        ax.set_xlabel('x', fontsize=20)
+        ax.set_ylabel('y', fontsize=20)
+        ax.tick_params(axis='both', which='major', labelsize=20)
+        ax.set_title("Fourier Series Approximation", fontsize=25)
+        ax.legend(prop={'size':20})
+
+        fig.tight_layout()
+        if save_path != None:
+            plt.savefig(save_path)
+
+        fig.show()
